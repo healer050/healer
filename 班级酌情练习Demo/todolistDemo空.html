@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <form>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入用户名" v-model="inputa">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入密码" v-model="inputb">
+        </div>
+        </form>
+    </div>
+    <div class="row">
+        <input type="button" class="btn btn-success" value="添加" v-bind:disabled="btnbool" @click="add()">
+        <input type="button" class="btn btn-info" value="删除">
+    </div>
+    <div class="row">
+        <h1>用户信息表</h1>
+        <table class="table table-bordered">
+            <tr class="text-center">
+                <td>序号</td>
+                <td>名字</td>
+                <td>年龄</td>
+                <td>操作</td>
+            </tr>
+            <tr class="text-center" v-for="(v,i) in obj">
+                <td>{{i+1}}</td>
+                <td>{{v.uname}}</td>
+                <td>{{v.age}}</td>
+                <td><button class="btn btn-success" data-toggle="modal" data-target="#myModal">删除</button></td>
+            </tr>
+            <tr class="text-right" >
+                <td colspan="4"><button class="btn btn-info">删除全部</button></td>
+            </tr>
+            <tr class="text-center" >
+                <td colspan="4">
+                    <p>暂无数据。。。。</p>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">确定删除吗？</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <button type="button" class="btn btn-default"  data-dismiss="modal">确定</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    new Vue({
+        el:".container",
+        data:{
+            obj:[
+                {uname:"xixi1",age:181},
+                {uname:"xixi2",age:182},
+                {uname:"xixi3",age:183}
+
+            ],
+            inputa:"",
+            inputb:"",
+            btnbool:true
+        },
+        methods:{
+            add(){
+                // 给data当中的模拟数据push()
+                this.obj.push({uname:this.inputa,age:this.inputb})
+                this.inputa=""
+                this.inputb=""
+            }
+        },
+        watch:{
+           inputa(){
+               if(this.inputa!=""&&this.inputb!=""){
+                   this.btnbool=false
+               }else{
+                this.btnbool=true
+               }
+           },
+           inputb(){
+            if(this.inputa!=""&&this.inputb!=""){
+                   this.btnbool=false
+               }else{
+                this.btnbool=true
+               }
+           }, 
+        }
+    })
+
+</script>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

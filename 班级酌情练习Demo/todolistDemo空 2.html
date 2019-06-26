@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="../node_modules/vue/dist/vue.min.js"></script>
+
+
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <form>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入用户名" v-model="inputa">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入密码" v-model="inputb">
+        </div>
+        </form>
+    </div>
+    <div class="row">
+        <input type="button" class="btn btn-success" value="添加" v-bind:disabled="btnbool" @click="add()" >
+        <input type="button" class="btn btn-info" value="删除">
+    </div>
+    <div class="row">
+        <h1>用户信息表</h1>
+        <table class="table table-bordered">
+            <tr class="text-center">
+                <td>序号</td>
+                <td>名字</td>
+                <td>年龄</td>
+                <td>操作</td>
+            </tr>
+            <tr class="text-center" v-for="(v,i) in obj">
+                <td>{{i+1}}</td>
+                <td>{{v.uname}}</td>
+                <td>{{v.age}}</td>
+                <td><button class="btn btn-success" data-toggle="modal" data-target="#myModal" @click="num=i">删除</button></td>
+            </tr>
+            <tr class="text-right" v-if="obj.length>0">
+                <td colspan="4"><button class="btn btn-info" data-toggle="modal" data-target="#myModal" @click="num=-1">删除全部</button></td>
+            </tr>
+            <tr class="text-center" v-else>
+                <td colspan="4">
+                    <p>暂无数据。。。。</p>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">确定删除吗？</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <button type="button" class="btn btn-default"  data-dismiss="modal" @click="del()">确定</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
+<script>
+    new Vue({
+        el:".container",
+        data:{
+            obj:[
+                {uname:"小明1",age:12},
+                {uname:"小明2",age:22},
+                {uname:"小明3",age:32}
+
+                
+                ],
+            inputa:"",
+            inputb:"",
+            btnbool:true,
+            num:-2
+
+        },
+        methods:{
+            add(){
+                this.obj.push({uname:this.inputa,age:this.inputb});
+                this.inputa="";
+                this.inputb="";
+
+            },
+            del(){
+                if(this.num==-1){
+                    this.obj=[]
+                }else{
+                    this.obj.splice(this.num,1);
+                }
+            }
+            
+            
+        },
+        watch:{
+                inputa(){
+                    if(this.inputa!="" && this.inputb!=""){
+                        this.btnbool=false;
+                    }else{
+                        this.btnbool=true;
+                    }
+                },
+                inputb(){
+                    if(this.inputa!="" && this.inputb!=""){
+                        this.btnbool=false;
+                    }else{
+                        this.btnbool=true;
+                    }
+                },
+            }
+
+    })
+
+
+
+</script>
